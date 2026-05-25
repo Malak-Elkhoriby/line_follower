@@ -162,13 +162,9 @@ void loop()
 {
   // Read line position
   uint16_t position = qtr.readLineBlack(sensorValues);
-
   float error = 2000 - position;
-
   // ================= LOST LINE =================
-
   bool lineLost = true;
-
   for(int i = 0; i < SensorCount; i++)
   {
     if(sensorValues[i] < 900)
@@ -177,14 +173,11 @@ void loop()
       break;
     }
   }
-
   // ================= IF LINE LOST =================
-
   if(lineLost)
   {
     I = 0;
     last_error = 0;
-
     if(lastDirection == 1)
     {
       setSpeed(100, -100);
@@ -197,24 +190,18 @@ void loop()
     {
       setSpeed(0, 0);
     }
-
     return;
   }
-
   // ================= HARD TURN OVERRIDE =================
-
   if(abs(error) > 1200)
   {
     if(error > 0)
       setSpeed(100, -100);
     else
       setSpeed(-100, 100);
-
     return;
   }
-
   // ================= NORMAL TRACKING =================
-
   static float filteredError = 2000;
   filteredError = 0.7 * filteredError + 0.3 * error;
 
